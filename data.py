@@ -1,15 +1,19 @@
-﻿#####数据#####
+﻿from encry import *
+
+#####数据#####
 
 class Person():
     #全局数据
     data_file = 'person.data'
     cash_interest = 0.01
+    alimoney_interest = 0.05
     week = 0
     weather = '晴天'
 
     #个人数据
     money = 3000
     cash = 0
+    alimoney = 0
     health = 100
     hope = 80
     cargo_cur = 0
@@ -64,6 +68,7 @@ class Person():
         {'code':'ten_million', 'descript':'成为千万富翁'},
         {'code':'hundred_million', 'descript':'成为亿万富翁'},
         {'code':'million_cash', 'descript':'银行存款100万'},
+        {'code':'million_alimoney', 'descript':'余X宝存款100万'},
         {'code':'one_house', 'descript':'拥有一所房屋'},
         {'code':'big_house', 'descript':'拥有一所豪宅'},
         {'code':'hundred_agency', 'descript':'购买租房100个'},
@@ -83,13 +88,15 @@ class Person():
             file = open(self.data_file,'r',encoding='utf-8') 
         except:
             return
-        conts = file.read()
+        conts_encry = file.read()
+        conts = Decry(conts_encry)
         if conts:
             data = eval(conts)
             self.week = data['week']
             self.weather = data['weather']
             self.money = data['money']
             self.cash = data['cash']
+            self.alimoney = data['alimoney']
             self.health = data['health']
             self.hope = data['hope']
             self.cargo_cur = data['cargo_min']
@@ -108,6 +115,7 @@ class Person():
         data['weather'] = self.weather
         data['money'] = self.money
         data['cash'] = self.cash
+        data['alimoney'] = self.alimoney
         data['health'] = self.health
         data['hope'] = self.hope
         data['cargo_min'] = self.cargo_cur
@@ -118,7 +126,8 @@ class Person():
         data['archive_person'] = self.archive_person
 
         conts = str(data)
-        file.write(conts)
+        conts_encry = Encry(conts)
+        file.write(conts_encry)
         file.close()
 
 
