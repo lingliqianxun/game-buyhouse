@@ -15,11 +15,16 @@ from cargo import Cargo
 from window import *
 import building
 from data import Person
+from network import *
 
  
 
 #####数据#####
 
+#版本
+VERSION=1.0
+
+#个人存档数据
 person = Person()
 person.GetData()
 
@@ -668,6 +673,11 @@ def click_archive():
     toplevel_archive.grab_set()
     toplevel_archive.focus()
 
+#操作-关于-点击事件
+def click_about():
+    text = "版本：" + str(VERSION) + "\n制作：By 绫里千寻"
+    mBox.showinfo('关于本软件', text)
+    
 #操作-重新开始-点击事件
 def click_restart():
     global person
@@ -787,6 +797,8 @@ button_market2 = ttk.Button(fram_option,text="市场",width=10, command=lambda:c
 button_market2.grid(column=1, row=0)
 button_market3 = ttk.Button(fram_option,text="农贸市场",width=10, command=lambda:click_market1())
 button_market3.grid(column=2, row=0)
+button_about = ttk.Button(fram_option,text="关于",width=10, command=lambda:click_about())
+button_about.grid(column=3, row=0)
 
 button_hospital = ttk.Button(fram_option,text="医院",width=10, command=lambda:click_hospital())
 button_hospital.grid(column=0, row=1)
@@ -809,5 +821,40 @@ button_archive.grid(column=3, row=2)
 button_restart = ttk.Button(fram_option,text="重新开始",width=10, command=lambda:click_restart())
 button_restart.grid(column=4, rowspan=3, sticky=tk.N+tk.S, row=0)
 
+
+
+#查询新版本
+def GetVersion():
+    url = "https://github.com/lingliqianxun/game-buyhouse/blob/master/version.txt"
+    s,r = HttpFile(url)
+    if s==200:
+        version_new = float(r.decode('utf-8'))
+        if VERSION < version_new :      
+            answer = mBox.askyesno("版本提示", "有新版本发布！是否更新？")   
+            if answer == True:
+                toplevel_down = tk.Toplevel(win)
+                toplevel_down.title("下载提示")
+                WindowSizeCenter(toplevel_down, 220, 120)
+                ttk.Label(toplevel_down, text="下载中，请等待...", width=25, anchor=tk.CENTER).grid(column=0, columnspan=2, row=0, padx=20, pady=40)
+                url = "https://github.com/lingliqianxun/game-buyhouse/blob/master/buyhouse.exe"
+                s,r = HttpFile(url)
+                if s==200:
+                    file_name = "buyhouse_" + str(version_new) + ".exe"
+                    try:
+                        f = open(file_name,'bw')
+                        f.write(r)
+                        f.close()
+                    except:
+                        toplevel_down.destroy()
+                        mBox.showinfo('下载提示', '下载失败！请检查文件权限...', parent=win)
+                        return
+                    toplevel_down.destroy()
+                    mBox.showinfo('下载提示', '下载成功！请重新打开游戏~', parent=win)
+                else:
+                    toplevel_down.destroy()
+                    mBox.showwarning('下载提示', '下载失败！请检查网络...', parent=win) 
+            else:  
+                pass
+
+GetVersion()
 win.mainloop()
-  
