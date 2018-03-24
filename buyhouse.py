@@ -14,16 +14,14 @@ from tkinter import messagebox as mBox
 from weather import Weather
 from cargo import Cargo
 from window import *
-import building
 from data import Person
-from network import *
-
+from version import GetVersion
  
 
 #####数据#####
 
 #版本
-VERSION=1.0
+VERSION=1.1
 
 #个人存档数据
 person = Person()
@@ -177,6 +175,7 @@ def click_room_sell(toplevel_sell, num_sell, cargo_code, price_sell):
     FramRoomRefresh()
 
     mBox.showinfo('卖出提示', '卖出成功！', parent=win)
+    ArchiveShow()
 
 #出租屋-货物按钮-点击事件
 def click_room_cargo(cargo_code):
@@ -822,40 +821,6 @@ button_archive.grid(column=3, row=2)
 button_restart = ttk.Button(fram_option,text="重新开始",width=10, command=lambda:click_restart())
 button_restart.grid(column=4, rowspan=3, sticky=tk.N+tk.S, row=0)
 
-
-
-#查询新版本
-def GetVersion():
-    url = "https://github.com/lingliqianxun/game-buyhouse/blob/master/version.txt?raw=true"
-    s,r = HttpFile(url)
-    if s==200:
-        version_new = float(r.decode('utf-8'))
-        if VERSION < version_new :      
-            answer = mBox.askyesno("版本提示", "有新版本发布！是否更新？")   
-            if answer == True:
-                toplevel_down = tk.Toplevel(win)
-                toplevel_down.title("下载提示")
-                WindowSizeCenter(toplevel_down, 220, 120)
-                ttk.Label(toplevel_down, text="下载中，请等待...", width=25, anchor=tk.CENTER).grid(column=0, columnspan=2, row=0, padx=20, pady=40)
-                url = "https://github.com/lingliqianxun/game-buyhouse/blob/master/dist/buyhouse.exe?raw=true"
-                s,r = HttpFile(url)
-                if s==200:
-                    file_name = "buyhouse_" + str(version_new) + ".exe"
-                    try:
-                        f = open(file_name,'bw')
-                        f.write(r)
-                        f.close()
-                    except:
-                        toplevel_down.destroy()
-                        mBox.showinfo('下载提示', '下载失败！请检查文件权限...', parent=win)
-                        return
-                    toplevel_down.destroy()
-                    mBox.showinfo('下载提示', '下载成功！请重新打开游戏~', parent=win)
-                else:
-                    toplevel_down.destroy()
-                    mBox.showwarning('下载提示', '下载失败！请检查网络...', parent=win) 
-            else:  
-                pass
-
-threading.Thread(target=GetVersion, args=()).start()
+#查询版本
+threading.Thread(target=GetVersion, args=(win,VERSION)).start()
 win.mainloop()
