@@ -16,12 +16,16 @@ from cargo import Cargo
 from window import *
 from data import Person
 from version import GetVersion
+from process import GetProcessId
  
 
 #####数据#####
 
 #版本
-VERSION=1.1
+VERSION = 1.1
+
+#程序名
+PROCESS_NAME = "buyhouse"
 
 #个人存档数据
 person = Person()
@@ -821,6 +825,14 @@ button_archive.grid(column=3, row=2)
 button_restart = ttk.Button(fram_option,text="重新开始",width=10, command=lambda:click_restart())
 button_restart.grid(column=4, rowspan=3, sticky=tk.N+tk.S, row=0)
 
-#查询版本
-threading.Thread(target=GetVersion, args=(win,VERSION)).start()
-win.mainloop()
+
+#判断进程是否存在
+if GetProcessId(PROCESS_NAME) > 2:
+    win.destroy()
+    win = tk.Tk()
+    win.withdraw()
+    mBox.showwarning('运行提示', '已有程序在运行!', parent=win) 
+else:
+    #查询版本
+    threading.Thread(target=GetVersion, args=(win,VERSION)).start()
+    win.mainloop()

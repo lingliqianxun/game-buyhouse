@@ -4,7 +4,7 @@
 
 class Person():
     #全局数据
-    data_file = 'person.data'
+    data_file = 'buyhouse'
     cash_interest = 0.01
     alimoney_interest = 0.05
     week = 0
@@ -84,8 +84,9 @@ class Person():
         return ''
 
     def GetData(self):
+        file_name = self.data_file + ".data"
         try:
-            file = open(self.data_file,'r',encoding='utf-8') 
+            file = open(file_name,'r',encoding='utf-8') 
         except:
             return
         conts_encry = file.read()
@@ -109,7 +110,8 @@ class Person():
         file.close()
 
     def SaveData(self):
-        file = open(self.data_file,'w',encoding='utf-8') 
+        file_name = self.data_file + ".data"
+        file = open(file_name,'w',encoding='utf-8') 
         data = {}
         data['week'] = self.week 
         data['weather'] = self.weather
