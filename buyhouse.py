@@ -3,6 +3,8 @@
 import time
 import random
 import threading
+import os
+import sys
 
 import tkinter as tk  
 from tkinter import ttk  
@@ -16,16 +18,15 @@ from cargo import Cargo
 from window import *
 from data import Person
 from version import GetVersion
-from process import GetProcessId
+from process import ProcessRunNum
  
 
 #####数据#####
 
-#版本
-VERSION = 1.1
+DEBUG = False
 
-#程序名
-PROCESS_NAME = "buyhouse"
+#版本
+VERSION = 1.2
 
 #个人存档数据
 person = Person()
@@ -826,8 +827,15 @@ button_restart = ttk.Button(fram_option,text="重新开始",width=10, command=la
 button_restart.grid(column=4, rowspan=3, sticky=tk.N+tk.S, row=0)
 
 
+
 #判断进程是否存在
-if GetProcessId(PROCESS_NAME) > 2:
+#存在Bug：先运行，后改名字再运行
+if (ProcessRunNum() == 0) & (DEBUG == False):
+    win.destroy()
+    win = tk.Tk()
+    win.withdraw()
+    mBox.showwarning('运行提示', '请不要更改程序名称 buyhouse.exe', parent=win) 
+elif ProcessRunNum() > 2:
     win.destroy()
     win = tk.Tk()
     win.withdraw()

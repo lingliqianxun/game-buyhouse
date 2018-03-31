@@ -1,12 +1,14 @@
 import win32com.client
 
 
-#获取进程ID
-def GetProcessId(name):
+PROCESS_NAME = "buyhouse"
+
+#获取进程数量
+def ProcessRunNum():
     num = 0
     wmi = win32com.client.GetObject('winmgmts:')
     for p in wmi.InstancesOf('win32_process'):
-        if name in p.Name:
+        if PROCESS_NAME in p.Name:
             num += 1
     return num
 

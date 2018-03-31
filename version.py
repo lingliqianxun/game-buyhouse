@@ -4,6 +4,7 @@ from tkinter import messagebox as mBox
 
 from window import *
 from network import *
+from process import PROCESS_NAME
 
 
 #查询新版本
@@ -25,7 +26,7 @@ def GetVersion(win, VERSION):
                 url = "https://github.com/lingliqianxun/game-buyhouse/blob/master/dist/buyhouse.exe?raw=true"
                 s,r = HttpFile(url)
                 if s==200:
-                    file_name = "buyhouse_" + str(version_new) + ".exe"
+                    file_name = PROCESS_NAME + "_" + str(version_new) + ".exe"
                     try:
                         f = open(file_name,'bw')
                         f.write(r)
