@@ -699,6 +699,7 @@ win = tk.Tk()
 win.title("买房记")  
 #win.resizable(0,0)
 WindowSizeCenter(win,660,500)
+win.iconbitmap(WindowResourcePath("ico.ico"))
 
 #顶部信息面板
 def FramTopRefresh():
