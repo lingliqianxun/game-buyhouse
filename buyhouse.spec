@@ -6,6 +6,7 @@ cur_path = os.getcwd()
 ico_name = 'ico.ico'
 ico_path = cur_path + "\\" + ico_name
 exe_name = 'buyhouse'
+version_name = 'version_file.txt'
 
 
 block_cipher = None
@@ -36,5 +37,7 @@ exe = EXE(pyz,
           strip=False,
           upx=True,
           runtime_tmpdir=None,
-          console=False )
+          console=False,
+          version=version_name,
+          icon=ico_name)
 
