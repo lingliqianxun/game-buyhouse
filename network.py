@@ -32,7 +32,10 @@ def HttpFile(url):
     results = response.read()
     return status,results
 
+def HttpDownload(url, file_name, schedule):
+    return urllib.request.urlretrieve(url, file_name, schedule)
 
+    
 #测试用
 def TestHttp():
     url = "http://www.baidu.com"

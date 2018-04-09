@@ -25,8 +25,13 @@ from process import ProcessRunNum
 
 DEBUG = False
 
-#版本
+#全局变量
+PROCESS_NAME = "buyhouse"
+ICON_NAME = "ico.ico"
 VERSION = 1.2
+CHECK_URL = "https://github.com/lingliqianxun/game-buyhouse/blob/master/version.txt?raw=true"
+DOWN_URL = "https://github.com/lingliqianxun/game-buyhouse/blob/master/dist/buyhouse.exe?raw=true"
+
 
 #个人存档数据
 person = Person()
@@ -113,6 +118,7 @@ def IsDead():
     if person.health == 0:
         toplevel_dead = tk.Toplevel(win)
         toplevel_dead.title("游戏结束")
+        toplevel_dead.iconbitmap(WindowResourcePath(ICON_NAME))
         #toplevel_dead.wm_overrideredirect(1)
         WindowSizeCenter(toplevel_dead, 250,100)
         toplevel_dead.columnconfigure(0, weight=1)
@@ -191,6 +197,7 @@ def click_room_cargo(cargo_code):
     
     toplevel_sell = tk.Toplevel(win)
     toplevel_sell.title("出售货物")
+    toplevel_sell.iconbitmap(WindowResourcePath(ICON_NAME))
     WindowSizeCenter(toplevel_sell, 250,120)
     toplevel_sell.columnconfigure(0, weight=1)
     toplevel_sell.columnconfigure(1, weight=1)
@@ -266,6 +273,7 @@ def click_market_cargo(cargo_code):
     
     toplevel_buy = tk.Toplevel(win)
     toplevel_buy.title("购买货物")
+    toplevel_buy.iconbitmap(WindowResourcePath(ICON_NAME))
     WindowSizeCenter(toplevel_buy, 250,120)
     toplevel_buy.columnconfigure(0, weight=1)
     toplevel_buy.columnconfigure(1, weight=1)
@@ -382,6 +390,7 @@ def click_bank_button(toplevel_bank, num, action):
 def click_bank():
     toplevel_bank = tk.Toplevel(win)
     toplevel_bank.title("存取款操作")
+    toplevel_bank.iconbitmap(WindowResourcePath(ICON_NAME))
     WindowSizeCenter(toplevel_bank, 250,120)
     toplevel_bank.columnconfigure(0, weight=1)
     toplevel_bank.columnconfigure(1, weight=1)
@@ -438,6 +447,7 @@ def click_bank_button(toplevel_alipay, num, action):
 def click_alipay():
     toplevel_alipay = tk.Toplevel(win)
     toplevel_alipay.title("存取款操作")
+    toplevel_alipay.iconbitmap(WindowResourcePath(ICON_NAME))
     WindowSizeCenter(toplevel_alipay, 250,120)
     toplevel_alipay.columnconfigure(0, weight=1)
     toplevel_alipay.columnconfigure(1, weight=1)
@@ -486,6 +496,7 @@ def click_agency_buy(toplevel_agency, num_buy):
 def click_agency():
     toplevel_agency = tk.Toplevel(win)
     toplevel_agency.title("购买出租屋")
+    toplevel_agency.iconbitmap(WindowResourcePath(ICON_NAME))
     WindowSizeCenter(toplevel_agency, 250,120)
     toplevel_agency.columnconfigure(0, weight=1)
     toplevel_agency.columnconfigure(1, weight=1)
@@ -527,6 +538,7 @@ def click_building_buy(toplevel_building, name, price):
 
     toplevel_building_ask= tk.Toplevel(toplevel_building)
     toplevel_building_ask.title("购买提示")
+    toplevel_building_ask.iconbitmap(WindowResourcePath(ICON_NAME))
     WindowSizeCenter(toplevel_building_ask, 250,120)
     toplevel_building_ask.columnconfigure(0, weight=1)
     toplevel_building_ask.columnconfigure(1, weight=1)
@@ -546,6 +558,7 @@ def click_building_buy(toplevel_building, name, price):
 def click_building():
     toplevel_building = tk.Toplevel(win)
     toplevel_building .title("售楼部")
+    toplevel_building.iconbitmap(WindowResourcePath(ICON_NAME))
     WindowSizeCenter(toplevel_building, 320, 280)
     ttk.Label(toplevel_building, text="户型", width=10).grid(column=0, row=0, padx=20, pady=10)
     ttk.Label(toplevel_building, text="面积（m2）", width=12, anchor=tk.E).grid(column=1, row=0, pady=10)
@@ -584,7 +597,9 @@ def click_lottery_open(toplevel_lottery, num, var, label_result):
 
     toplevel_run = tk.Toplevel(toplevel_lottery)
     toplevel_run.title("开奖提示")
+    toplevel_run.iconbitmap(WindowResourcePath(ICON_NAME))
     WindowSizeCenter(toplevel_run, 220, 120)
+    
     ttk.Label(toplevel_run, text="开奖中，请稍等...", width=25, anchor=tk.CENTER).grid(column=0, columnspan=2, row=0, padx=20, pady=40)
     toplevel_run.update()
     time.sleep(1)
@@ -627,6 +642,7 @@ def click_lottery_open(toplevel_lottery, num, var, label_result):
 def click_lottery():
     toplevel_lottery = tk.Toplevel(win)
     toplevel_lottery .title("时时彩票")
+    toplevel_lottery.iconbitmap(WindowResourcePath(ICON_NAME))
     WindowSizeCenter(toplevel_lottery, 420, 220)
 
     ttk.Label(toplevel_lottery, text="随机1~10号数字，猜中直返倍率，请下注数额~").grid(column=0, columnspan=3, row=0, padx=20, pady=10)
@@ -662,6 +678,7 @@ def click_lottery():
 def click_archive():
     toplevel_archive = tk.Toplevel(win)
     toplevel_archive.title("已获成就")
+    toplevel_archive.iconbitmap(WindowResourcePath(ICON_NAME))
     WindowSizeCenter(toplevel_archive, 250, 250)
     toplevel_archive.columnconfigure(0, weight=1)
     toplevel_archive.columnconfigure(1, weight=1)
@@ -696,10 +713,10 @@ def click_restart():
 
 #####面板#####
 win = tk.Tk()       
-win.title("买房记")  
+win.title("买房记v%s" % VERSION)  
+win.iconbitmap(WindowResourcePath(ICON_NAME))
 #win.resizable(0,0)
 WindowSizeCenter(win,660,500)
-win.iconbitmap(WindowResourcePath("ico.ico"))
 
 #顶部信息面板
 def FramTopRefresh():
@@ -828,20 +845,23 @@ button_restart = ttk.Button(fram_option,text="重新开始",width=10, command=la
 button_restart.grid(column=4, rowspan=3, sticky=tk.N+tk.S, row=0)
 
 
+#查询版本
+threading.Thread(target=GetVersion, args=(win,PROCESS_NAME,ICON_NAME,VERSION,CHECK_URL,DOWN_URL)).start()
+win.mainloop()
 
-#判断进程是否存在
-#存在Bug：先运行，后改名字再运行
-if (ProcessRunNum() == 0) & (DEBUG == False):
-    win.destroy()
-    win = tk.Tk()
-    win.withdraw()
-    mBox.showwarning('运行提示', '请不要更改程序名称 buyhouse.exe', parent=win) 
-elif ProcessRunNum() > 2:
-    win.destroy()
-    win = tk.Tk()
-    win.withdraw()
-    mBox.showwarning('运行提示', '已有程序在运行!', parent=win) 
-else:
-    #查询版本
-    threading.Thread(target=GetVersion, args=(win,VERSION)).start()
-    win.mainloop()
+##判断进程是否存在
+##存在Bug：先运行，后改名字再运行
+#if (ProcessRunNum(PROCESS_NAME) == 0) & (DEBUG == False):
+#    win.destroy()
+#    win = tk.Tk()
+#    win.withdraw()
+#    mBox.showwarning('运行提示', '请不要更改程序名称 buyhouse.exe', parent=win) 
+#elif ProcessRunNum(PROCESS_NAME) > 2:
+#    win.destroy()
+#    win = tk.Tk()
+#    win.withdraw()
+#    mBox.showwarning('运行提示', '已有程序在运行!', parent=win) 
+#else:
+#    #查询版本
+#    threading.Thread(target=GetVersion, args=(win,PROCESS_NAME,ICON_NAME,VERSION,CHECK_URL,DOWN_URL)).start()
+#    win.mainloop()
