@@ -846,7 +846,7 @@ button_restart.grid(column=4, rowspan=3, sticky=tk.N+tk.S, row=0)
 
 
 #查询版本
-threading.Thread(target=GetVersion, args=(win,PROCESS_NAME,ICON_NAME,VERSION,CHECK_URL,DOWN_URL)).start()
+threading.Thread(target=GetVersion, args=(win,True,PROCESS_NAME,ICON_NAME,VERSION,CHECK_URL,DOWN_URL)).start()
 win.mainloop()
 
 ##判断进程是否存在

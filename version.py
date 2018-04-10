@@ -84,16 +84,20 @@ def format_size(bytes):
         return "%.2fKb/s" % (kb)
 
 #查询新版本
-def GetVersion(win, process_name, icon_name, version_cur, check_url, down_url):
+def GetVersion(win, is_show, process_name, icon_name, version_cur, check_url, down_url):
     global Win,file_name,toplevel_down,canvas_status,canvas_rectangle,label_total,label_speed,start_time
     Win = win
     s,r = HttpFile(check_url)
     #s,r = 200,b'2.0'
     if s != 200:
+        if is_show:
+            mBox.showwarning("网络提示", "连接失败，请检查网络！")
         return
     
     version_new = float(r.decode('utf-8')) 
     if version_cur >= version_new:
+        if is_show:
+            mBox.showinfo("版本提示", "已是最新版！")
         return
     
     file_name = process_name + "_" + str(version_new) + ".exe"
